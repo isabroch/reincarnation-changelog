@@ -33,6 +33,12 @@ function addNested(pre, post, objKey, obj) {
      - per level boosts
    - proficiencies (skill + lores)
    - feats [ name, ??, type feat, level, ??, "standard/parent/child", "parent"]
+
+   ! TO DO
+   - Rewrite stat increase comparison logic. Pathbuilder provides stat increases in different orders, i.e. +DEX, +INT -> +INT, +DEX
+     - Sort it as follows: [STR, DEX, CON, INT, WIS, CHA]
+   - Rewrite comparison logics; instead of forin post, compare length of pre and post, and then do a for loop with the larger length.
+
 */
 
 function compareBuilds({ build: preBuild }, { build: postBuild }) {
@@ -43,7 +49,7 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
     let post = postBuild[type];
 
     if (type === "languages") {
-      pre = pre.join(", ");
+      pre = pre.join(", ");1
       post = post.join(", ");
     }
 
@@ -280,7 +286,9 @@ function printChangelog(changelog) {
     }
 
     const freeFeats = Object.keys(changelog['feats']).find( i => i.includes('Free Feats'))
-    output += `\n\n${freeFeats}\n     ${changelog['feats'][freeFeats]['pre']}\n-> ${changelog['feats'][freeFeats]['post']}`
+    if (freeFeats) {
+      output += `\n\n${freeFeats}\n     ${changelog['feats'][freeFeats]['pre']}\n-> ${changelog['feats'][freeFeats]['post']}`
+    }
   }
 
   output = output.replaceAll('undefined', 'NONE SELECTED');
