@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covalon: Reincarnation Changelog Generator</title>
+
+  <script type="module" src="index.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<form id="input">
+  <fieldset>
+    <legend>Pathbuilder JSONs</legend>
+
+    <p>For each sheet, go to Menu > Export JSON > View JSON. Copy all the text there into the respective text areas. The page autosaves the last inputted data to your browser's local storage in case you navigate away from the page.</p>
+    <p>Make sure you copy one JSON in before doing the next. Pathbuilder only stores one json per user, and overrides the old one when you hit Export JSON.</p>
+
+    <div class="inputs">
+      <label for="preSheet">Old Sheet <textarea required name="preSheet" id="preSheet" rows="8"></textarea></label>
+      <label for="postSheet">New Sheet <textarea required name="postSheet" id="postSheet" rows="8"></textarea></label>
+    </div>
+
+    <button id="generate">Generate Sheet</button>
+  </fieldset>
+</form>
+
+<div class="outputContainer">
+  <h2>Your Reincarnation Changelog:</h2>
+  <p>Make sure to check the reincarnation log before submitting!</p>
+  <textarea id="output" rows="10"></textarea>
+  <button id="selectAll">Select All</button>
+
+  <!-- <div class="loader"></div> -->
+</div>
+
+
+<div class="notice">Use <kbd>Shift + D</kbd> to toggle darkmode <br><small>(disabled while old/new sheet inputs focused)</small></div>
+</body>
+</html>
