@@ -18,8 +18,8 @@
     <p>Make sure you copy one JSON in before doing the next. Pathbuilder only stores one json per user, and overrides the old one when you hit Export JSON.</p>
 
     <div class="inputs">
-      <label for="preSheet">Old Sheet <textarea required name="preSheet" id="preSheet" rows="8"></textarea></label>
-      <label for="postSheet">New Sheet <textarea required name="postSheet" id="postSheet" rows="8"></textarea></label>
+      <label for="preSheet"><span>Old Sheet <small></small></span> <textarea required name="preSheet" id="preSheet" rows="8"></textarea></label>
+      <label for="postSheet"><span>New Sheet <small></small></span> <textarea required name="postSheet" id="postSheet" rows="8"></textarea></label>
     </div>
 
     <button id="generate">Generate Sheet</button>
@@ -36,6 +36,9 @@
 </div>
 
 
-<div class="notice">Use <kbd>Shift + D</kbd> to toggle darkmode <br><small>(disabled while old/new sheet inputs focused)</small></div>
+<div class="notice">
+  <div class="toggle-hint">Use <kbd>Shift + D</kbd> to toggle darkmode <br><small>(disabled while old/new sheet inputs focused)</small></div>
+  <label class="hide-hint">x<input type="checkbox" name="hide-hint" id="hide-hint"></label>
+</div>
 </body>
 </html>
