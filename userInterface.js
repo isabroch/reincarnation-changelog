@@ -8,11 +8,20 @@ import { compareBuilds, printChangelog } from "./compareSheets.js";
     outputEl.select();
   })
 
+  function parseSheet(value) {
+    const isValid = value.match(/^{"success":true/gmi);
+
+    if (!isValid) throw new Error ("Must provide Pathbuilder JSON!")
+
+    return JSON.parse(value);
+  }
+
   document.querySelector('#input').addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const preSheet = JSON.parse(document.querySelector('#preSheet').value);
-    const postSheet = JSON.parse(document.querySelector('#postSheet').value);
+   try {
+    const preSheet = parseSheet(document.querySelector('#preSheet').value);
+    const postSheet = parseSheet(document.querySelector('#postSheet').value);
 
     const output = printChangelog(compareBuilds(preSheet, postSheet));
 
@@ -29,6 +38,10 @@ import { compareBuilds, printChangelog } from "./compareSheets.js";
       outputEl.classList.remove('loading');
       outputEl.value = output;
     }, 500);
+   } catch (error) {
+    console.error(error);
+    alert('Looks like there was an issue generating your changelog. Are you sure both fields have JSON from Pathbuilder?')
+   }
   })
 })();
 

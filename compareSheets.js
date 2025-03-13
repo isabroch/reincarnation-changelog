@@ -127,7 +127,16 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
       })
     });
 
-    changelog["proficiencies"] = { ...changelog["proficiencies"], ...diff };
+    for (const key in diff) {
+      if (diff[key].pre == diff[key].post) {
+        delete diff[key];
+      }
+    }
+
+    if (Object.entries(diff).length > 0)
+    {
+      changelog["proficiencies"] = { ...changelog["proficiencies"], ...diff };
+    }
   }
 
   function compareFeats() {
@@ -199,6 +208,10 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
 
 function printChangelog(changelog) {
   let output = "## Changelog";
+
+  if (Object.keys(changelog).length === 0) {
+    return output += `\nYou have no changes!`
+  }
 
   const outputChange = (key, obj) => `\n*${titleCase(key)}*: ${obj.pre} -> ${obj.post}`;
 

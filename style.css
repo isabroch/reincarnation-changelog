@@ -62,6 +62,16 @@ fieldset {
     justify-items: center;
     min-width: min(40ch, 100%);
     gap: 0.3rem;
+
+    &:has(:user-invalid) {
+      --color: color-mix(in oklab, firebrick 75%, var(--text));
+      color: var(--color);
+
+      textarea {
+        border: 1px solid var(--color);
+        border-radius: 3px;
+      }
+    }
   }
 
   textarea {
