@@ -47,6 +47,10 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
     if (type === "languages") {
       pre = pre.join(", ");1
       post = post.join(", ");
+
+      if (Math.abs(preBuild.abilities.int - postBuild.abilities.int) > 1) {
+        post = "YOUR INT CHANGED BUT YOUR LANGUAGES DIDN'T???"
+      }
     }
 
     if (pre !== post) {
