@@ -186,15 +186,34 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
     const feats = (function getDifferences() {
       let diff = {};
 
+      // add both sets to diff :eyes:
+      preFeats.forEach(([key, pre]) => {
+        addKeyIfUnassigned(key, diff);
+        diff[key] = {...diff[key], pre}
+      })
       postFeats.forEach(([key, post]) => {
-        let pre = preFeats.find(([prekey]) => key === prekey);
-        if (pre !== undefined) pre = pre[1];
+        addKeyIfUnassigned(key, diff);
+        diff[key] = {...diff[key], post}
+      })
 
-        if (pre !== post) {
-          addKeyIfUnassigned(key, diff);
-          diff[key] = { pre, post };
-        }
-      });
+      // go through each thing in diff and remove if unchanged
+      for (const key in diff) {
+          const featEntry = diff[key];
+
+          if (featEntry.pre === undefined) diff[key].pre = 'N/A';
+          if (featEntry.post === undefined) diff[key].post = 'N/A';
+
+          if (featEntry.pre === featEntry.post) {
+            delete diff[key];
+          }
+      }
+
+      // postFeats.forEach(([key, post]) => {
+      //   if (pre !== post) {
+      //     addKeyIfUnassigned(key, diff);
+      //     diff[key] = { pre, post };
+      //   }
+      // });
 
       return diff;
     })();
@@ -299,6 +318,9 @@ function printChangelog(changelog) {
   output = output.replaceAll('undefined', 'NONE SELECTED');
   output = output.replaceAll('None selected', 'NONE SELECTED');
   output = output.replaceAll('Not set', 'NONE SELECTED');
+  /* STYLING FOR CROSSED OUT FEATS */
+  output = output.replaceAll(/(.*?`N\/A`)/g, "~~$1~~");
+  // output = output.replaceAll(/(.*?:)(.*?`N\/A`)/g, "~~$1~~$2");
 
   return output;
 }
