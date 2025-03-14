@@ -321,7 +321,7 @@ function printChangelog(changelog) {
   output = output.replaceAll('None selected', 'NONE SELECTED');
   output = output.replaceAll('Not set', 'NONE SELECTED');
   /* STYLING FOR CROSSED OUT FEATS */
-  output = output.replaceAll(/(.*?`N\/A`)/g, "~~$1~~");
+  output = output.replaceAll(/(.*?`N\/A`)$/gm, "~~$1~~");
   // output = output.replaceAll(/(.*?:)(.*?`N\/A`)/g, "~~$1~~$2");
 
   return output;
