@@ -272,8 +272,14 @@ function printChangelog(changelog) {
 
       // output += `\n\`\`\``
 
+      const pad = ( x ) => x.replace('.5', '^').padEnd(2, ' ').padStart(3, ' ');
+
+      output += `\n      \`STR DEX CON INT WIS CHA\` \n      \`${pre.map( ([x, y, stat]) => pad(stat)).join(' ')}\` \n->  \`${post.map( ([x, y, stat]) => pad(stat)).join(' ')}\`\n`;
+
       for (let i = 0; i < 6; i++) {
-        output += `\n\`${pre[i][1]}\` ${pre[i][2].replace('.5', '^').padEnd(2, ' ')} ->  ${post[i][2].replace('.5', '^')}`;
+        // output += `\n\`${pre[i][1]}\` ${pre[i][2].replace('.5', '^').padEnd(2, ' ')} ->  ${post[i][2].replace('.5', '^')}`;
+
+
       }
 
       // output += `\n\`\`\``
