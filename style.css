@@ -191,7 +191,7 @@ fieldset {
   }
 
   .hide-hint {
-    --size: 1rem;
+    --size: 3rem;
     margin-top: 0.2ch;
     border-radius: 100%;
     width: var(--size);
@@ -208,13 +208,36 @@ fieldset {
     cursor: pointer;
     padding-bottom: 1px;
     inset-inline-start: 0.5ch;
+    box-sizing: border-box;
+
+    &::after {
+      content: '';
+      position: absolute;
+      margin-top: inherit;
+      width: calc(var(--size) - 0.7rem);
+      height: calc(var(--size) - 0.7rem);
+      border-radius: inherit;
+      outline: 5px auto Highlight;
+      outline: 5px auto -webkit-focus-ring-color;
+      opacity: 0;
+    }
 
     &:hover {
       background: color-mix(in oklab, var(--text) 10%, transparent);
     }
 
+    &:focus-within {
+      &::after {
+        opacity: 1;
+      }
+    }
+
+
     input {
-      display: none;
+      height: 0;
+      width: 0;
+      opacity: 0;
+      position: absolute;
     }
   }
 
@@ -228,4 +251,43 @@ textarea {
   padding: 10px;
   line-height: 1.3;
   resize: none;
+}
+
+.alerts {
+  position: fixed;
+  z-index: 999;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  display: grid;
+  gap: 10px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.alert {
+  --timing: .5s;
+  --color: rgb(146, 127, 149);
+  padding: 1rem;
+  font-size: 0.8rem;
+  background: color-mix(in oklab, var(--bg) 75%, var(--color));
+  outline: 1px solid color-mix(in oklab, var(--text) 25%, var(--color));
+  outline-offset: -5px;
+  user-select: none;
+
+  display: block;
+  transform: translateX(0);
+  box-sizing: border-box;
+  transition: opacity var(--timing), height var(--timing), transform var(--timing), display var(--timing) allow-discrete;
+
+  @starting-style {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+
+  &.is-exiting {
+    opacity: 0;
+    transform: translateX(110%);
+  }
 }

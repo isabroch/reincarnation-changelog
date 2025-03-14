@@ -14,8 +14,9 @@
   <fieldset>
     <legend>Pathbuilder JSONs</legend>
 
-    <p>For each sheet, go to Menu > Export JSON > View JSON. Copy all the text there into the respective text areas. The page autosaves the last inputted data to your browser's local storage in case you navigate away from the page.</p>
-    <p>Make sure you copy one JSON in before doing the next. Pathbuilder only stores one json per user, and overrides the old one when you hit Export JSON.</p>
+    <p>For each sheet, go to <b>Menu > Export JSON > View JSON</b>. Copy all the text there into the respective text areas. Make sure you copy one JSON in before doing the next. Pathbuilder only stores one json per user, and overrides the old one when you hit Export JSON.</p>
+
+    <p><b>This tool simply checks differences between sheets.</b> You'll still need to double check the legality of your options - i.e. if you lost access to feats, did all your skill/ability increases, and so on.</p>
 
     <div class="inputs">
       <label for="preSheet"><span>Old Sheet <small></small></span> <textarea required name="preSheet" id="preSheet" rows="8"></textarea></label>
@@ -29,8 +30,9 @@
 <div class="outputContainer">
   <h2>Your Reincarnation Changelog:</h2>
   <p>Make sure to check the reincarnation log before submitting!</p>
+  <p>If you notice any issues with the tool, message <b>nelizzy</b> on Discord.</p>
   <textarea id="output" rows="10"></textarea>
-  <button id="selectAll">Select All</button>
+  <button id="selectAll">Copy to Clipboard</button>
 
   <!-- <div class="loader"></div> -->
 </div>
@@ -39,6 +41,9 @@
 <div class="notice">
   <div class="toggle-hint">Use <kbd>Shift + D</kbd> to toggle darkmode <br><small>(disabled while old/new sheet inputs focused)</small></div>
   <label class="hide-hint">x<input type="checkbox" name="hide-hint" id="hide-hint"></label>
+</div>
+
+<div class="alerts">
 </div>
 </body>
 </html>

@@ -2,10 +2,31 @@ import { compareBuilds, printChangelog } from "./compareSheets.js";
 
 (function handleForm() {
   const outputEl = document.querySelector("#output");
+  const alerts = document.querySelector('.alerts');
 
   document.querySelector("#selectAll").addEventListener("click", () => {
     outputEl.focus();
     outputEl.select();
+    outputEl.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(outputEl.value);
+
+    console.log(`Copied:\n${outputEl.value}`);
+
+    const alert = document.createElement('div');
+    alert.classList.add('alert');
+    alert.innerHTML = `<p>Copied to  clipboard!</p>`;
+    alerts.insertAdjacentElement("beforeend", alert);
+
+    // after 2 secs transition out, and then delete
+    setTimeout(() => {
+      alert.classList.add('is-exiting');
+
+      setTimeout( () => {
+        alerts.removeChild(alert)
+      }, 500)
+    }, 2000);
+
   });
 
   function parseSheet({value, id}) {
