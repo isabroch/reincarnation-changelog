@@ -171,7 +171,7 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
           return;
         }
 
-        const key = `${level} - ${type}`;
+        const key = `${`${level}`.padStart(2, ' ')} - ${type}`;
         const val = getName(name, opt);
 
         featList.push([key, val]);
@@ -215,7 +215,20 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
       //   }
       // });
 
-      return diff;
+
+    const sortedDiff = Object.keys(diff)
+      .sort(function (a, b) {
+        const [aLevel, aType] = a.split(' - ');
+        const [bLevel, bType] = b.split(' - ');
+
+        return aLevel - bLevel + aType.localeCompare(bType, "en");
+      })
+      .reduce(function (result, key) {
+        result[key] = diff[key];
+        return result;
+    }, {});
+
+      return sortedDiff;
     })();
 
     if (Object.keys(feats).length > 0) changelog.feats = feats;
