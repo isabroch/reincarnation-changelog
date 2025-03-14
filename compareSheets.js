@@ -86,9 +86,14 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
         // LVL 1: +DEX, +INT, +CHA, +CON
         // so on so forth
 
-        const merge = (arg) => arg.map((x) => `+${x.toUpperCase()}`).join(", ");
+        function sortAttributes (a, b) {
+          const order = ["str", "dex", "con", "int", "wis", "cha"];
+          return order.findIndex( (x) => x === a.toLowerCase()) - order.findIndex( (x) => x === b.toLowerCase());
+        } 
 
-        const ancestry = [...ancestryFree.map((x) => `+${x.toUpperCase()}`), ...ancestryBoosts.map((x) => `+${x.toUpperCase()}`), ...ancestryFlaws.map((x) => `-${x.toUpperCase()}`)].join(", ");
+        const merge = (arg) => arg.sort(sortAttributes).map((x) => `${x.toUpperCase()}`).join(", ");
+
+        const ancestry = [...ancestryFree.sort(sortAttributes).map((x) => `+${x.toUpperCase()}`), ...ancestryBoosts.sort(sortAttributes).map((x) => `+${x.toUpperCase()}`), ...ancestryFlaws.sort(sortAttributes).map((x) => `-${x.toUpperCase()}`)].join(", ");
 
         const background = merge(backgroundBoosts);
         const classB = merge(classBoosts);
