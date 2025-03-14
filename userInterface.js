@@ -10,7 +10,7 @@ import { compareBuilds, printChangelog } from "./compareSheets.js";
 
   function parseSheet({value, id}) {
     try {
-      const isValid = value.match(/^{"success":true/gim);
+      const isValid = value.match(/^{\s*?"success":\s?true/gim);
       if (!isValid) throw new Error("Must provide Pathbuilder JSON!");
       return JSON.parse(value);
     } catch (error) {
@@ -64,7 +64,7 @@ import { compareBuilds, printChangelog } from "./compareSheets.js";
   const labelInput = (value, target) => {
     let text;
     try {
-      const hasData = value.match(/"build":{"name":"(.*?)","class":"(.*?)".*?"level":(\d+)/i);
+      const hasData = value.match(/"build":\s*?{\s*?"name":\s*?"(.*?)",\s*?"class":\s*?"(.*?)",\s*?.*?\s*?"level":\s*?(\d+)/i);
 
       if (hasData) {
         JSON.parse(value);
