@@ -45,7 +45,7 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
     let post = postBuild[type];
 
     if (type === "languages") {
-      pre = pre.join(", ");1
+      pre = pre.join(", ");
       post = post.join(", ");
 
       if (Math.abs(preBuild.abilities.int - postBuild.abilities.int) > 1) {
