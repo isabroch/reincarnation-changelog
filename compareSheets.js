@@ -269,7 +269,15 @@ function printChangelog(changelog) {
     output += `\n### Stats`
 
     if (changelog['stats']['final']) {
-      output += `\n     ${changelog['stats']['final']['pre']}\n-> ${changelog['stats']['final']['post']}`;
+      const [pre, post] = [changelog['stats']['final']['pre'], changelog['stats']['final']['post']].map( x => [...x.matchAll(/\b(\w{3}) ([\d.]+)\b/g)])
+
+      // output += `\n\`\`\``
+
+      for (let i = 0; i < 6; i++) {
+        output += `\n\`${pre[i][1]}\` ${pre[i][2].replace('.5', '^').padEnd(2, ' ')} ->  ${post[i][2].replace('.5', '^')}`;
+      }
+
+      // output += `\n\`\`\``
     }
 
     for (const type in changelog['stats']) {
