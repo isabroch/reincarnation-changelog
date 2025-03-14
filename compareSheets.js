@@ -38,6 +38,8 @@ function addNested(pre, post, objKey, obj) {
 function compareBuilds({ build: preBuild }, { build: postBuild }) {
   const changelog = {};
 
+  changelog.levelMax = postBuild.level;
+
   function compareStat(type) {
     let pre = preBuild[type];
     let post = postBuild[type];
@@ -253,6 +255,9 @@ function printChangelog(changelog) {
         outputFeats();
         break;
 
+      case 'levelMax':
+        break;
+
       default:
         output += outputChange(key, changelog[key])
         break;
@@ -308,7 +313,11 @@ function printChangelog(changelog) {
         continue;
       }
 
-      output += outputChange(key, data)
+      if (+key.match(/\d+/g) > changelog.levelMax) {
+        continue;
+      }
+
+      output += outputChange(key.replace(' Feat', ''), data)
     }
 
     const freeFeats = Object.keys(changelog['feats']).find( i => i.includes('Free Feats'))
