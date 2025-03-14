@@ -218,6 +218,8 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
 
     const sortedDiff = Object.keys(diff)
       .sort(function (a, b) {
+        if (a.includes("Free Feats") || b.includes("Free Feats")) return 0;
+
         const [aLevel, aType] = a.split(' - ');
         const [bLevel, bType] = b.split(' - ');
 
