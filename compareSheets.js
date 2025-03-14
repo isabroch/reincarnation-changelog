@@ -89,7 +89,7 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
         function sortAttributes (a, b) {
           const order = ["str", "dex", "con", "int", "wis", "cha"];
           return order.findIndex( (x) => x === a.toLowerCase()) - order.findIndex( (x) => x === b.toLowerCase());
-        } 
+        }
 
         const merge = (arg) => arg.sort(sortAttributes).map((x) => `${x.toUpperCase()}`).join(", ");
 
@@ -252,8 +252,8 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
 function printChangelog(changelog) {
   let output = "## Changelog";
 
-  if (Object.keys(changelog).length === 0) {
-    return output += `\nYou have no changes!`
+  if (Object.keys(changelog).length === 1) {
+    return output = `You have no changes!`
   }
 
   const outputChange = (key, obj) => `\n${titleCase(key)}: \`${obj.pre}\` -> \`${obj.post}\``;
