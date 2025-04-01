@@ -33,6 +33,7 @@ function addNested(pre, post, objKey, obj) {
      - per level boosts
    - proficiencies (skill + lores)
    - feats [ name, ??, type feat, level, ??, "standard/parent/child", "parent"]
+   - specials
 */
 
 function compareBuilds({ build: preBuild }, { build: postBuild }) {
@@ -236,6 +237,30 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
     if (Object.keys(feats).length > 0) changelog.feats = feats;
   }
 
+  function compareSpecials() {
+    const pre = preBuild.specials;
+    const post = postBuild.specials;
+
+    // join the arrays without duplicates. run through joined array. for every feat, check if it's in pre AND post. if it's ONLY in pre, append to list as `- SPECIAL`. if it's ONLY in post, append to list as `- SPECIAL`
+    const diffs = {removed: [], added: []};
+
+    [...new Set([...pre, ...post])].forEach( special => {
+      const isInPre = pre.find( item => item === special );
+      const isInPost = post.find( item => item === special );
+
+      if (isInPre === undefined) {
+        diffs.added.push(special)
+      }
+      if (isInPost === undefined) {
+        diffs.removed.push(special)
+      }
+    })
+
+    changelog.specials = diffs;
+
+    return diffs;
+  }
+
   compareStat("level");
   compareStat("class");
   compareStat("ancestry");
@@ -247,6 +272,7 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
   compareproficiencies();
   compareLores();
   compareFeats();
+  compareSpecials();
 
   return changelog;
 }
@@ -272,6 +298,10 @@ function printChangelog(changelog) {
 
       case 'feats':
         outputFeats();
+        break;
+
+      case 'specials':
+        outputSpecials();
         break;
 
       case 'levelMax':
@@ -349,6 +379,16 @@ function printChangelog(changelog) {
     if (freeFeats) {
       output += `\n\n${freeFeats}\n     \`${changelog['feats'][freeFeats]['pre']}\`\n-> \`${changelog['feats'][freeFeats]['post']}\``
     }
+  }
+
+  function outputSpecials() {
+    output += `\n### Specials`
+
+    output += `\n\`\`\`diff`;
+    output += changelog.specials.removed.length > 0 ? `\n- ${changelog.specials.removed.join(', ')}` : '';
+    output += changelog.specials.added.length > 0 ? `\n+ ${changelog.specials.added.join(', ')}` : '';
+    output += `\n\`\`\``;
+
   }
 
   output = output.replaceAll('undefined', 'NONE SELECTED');
