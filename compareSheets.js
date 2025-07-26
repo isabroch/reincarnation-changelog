@@ -41,6 +41,14 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
 
   changelog.levelMax = postBuild.level;
 
+  function getMultilingual(build) {
+    let count = build["feats"].reduce((multilingualCount, currFeat) => {
+      return currFeat[0] === "Multilingual" ? multilingualCount + 1 : multilingualCount;
+    }, 0);
+
+    return count;
+  }
+
   function compareStat(type) {
     let pre = preBuild[type];
     let post = postBuild[type];
@@ -49,8 +57,21 @@ function compareBuilds({ build: preBuild }, { build: postBuild }) {
       pre = pre.join(", ");
       post = post.join(", ");
 
-      if (Math.abs(preBuild.abilities.int - postBuild.abilities.int) > 1) {
-        post = "YOUR INT CHANGED BUT YOUR LANGUAGES DIDN'T???"
+      if (pre === post) {
+        const preMultilingual = getMultilingual(preBuild);
+        const postMultilingual = getMultilingual(postBuild);
+
+        post += " -";
+
+        if (preBuild.abilities.int !== postBuild.abilities.int) {
+          post += " (your int changed)";
+        }
+
+        if (preMultilingual !== postMultilingual) {
+          post += " (your multilingual changed)";
+        }
+
+        post += ` are your langs correct?`;
       }
     }
 
